@@ -4,7 +4,7 @@ Forty questions a guest asks a restaurant's AI about wine, the list to answer th
 
 These are the questions I test The House Somm with, the AI sommelier I built, adapted so anyone can run them against any agent. The venue, The Aster Room, is fictional. Every producer, price and policy in it was invented for this test set.
 
-The data is also on Hugging Face, with a browsable table: https://huggingface.co/datasets/aigoalieunbeatable/hospitality-agent-evals
+The data is also on Hugging Face, with a browsable table: https://huggingface.co/datasets/woodywu-sommelier/hospitality-agent-evals
 
 ## Why this exists
 
