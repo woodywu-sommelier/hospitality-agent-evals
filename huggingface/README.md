@@ -33,7 +33,7 @@ Forty questions a guest asks a restaurant's AI about wine, the list to answer th
 
 These are the questions I test The House Somm with, the AI sommelier I built, adapted so anyone can run them against any agent. The venue, The Aster Room, is fictional. Every producer, price and policy in it was invented for this set.
 
-**The price checker and the scorer are on GitHub:** https://github.com/aigoalieunbeatable-bear/hospitality-agent-evals
+**The price checker and the scorer are on GitHub:** https://github.com/woodywu-sommelier/hospitality-agent-evals
 
 ## Why it exists
 
@@ -75,7 +75,7 @@ One fictional venue, one by-the-glass list, Canadian dollars, English and Chines
 
 CC BY 4.0. Credit "Woody Wu, Hospitality Agent Evals". The code on GitHub is MIT.
 
-> Wu, Woody. *Hospitality Agent Evals: The Aster Room*. 2026. https://github.com/aigoalieunbeatable-bear/hospitality-agent-evals
+> Wu, Woody. *Hospitality Agent Evals: The Aster Room*. 2026. https://github.com/woodywu-sommelier/hospitality-agent-evals
 
 ## About
 

@@ -10,7 +10,7 @@ version: 1.0.0
 date-released: 2026-10-04
 license: MIT
 url: "https://woodywusommelier.com/consulting/ai-teams/"
-repository-code: "https://github.com/aigoalieunbeatable-bear/hospitality-agent-evals"
+repository-code: "https://github.com/woodywu-sommelier/hospitality-agent-evals"
 keywords:
   - evaluation
   - hospitality

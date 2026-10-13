@@ -52,7 +52,7 @@ write("categories.jsonl", jsonl(categoryRows));
 write("list.jsonl", jsonl(listRows));
 write("venue_knowledge.md", venue.knowledge);
 
-const GITHUB = "https://github.com/aigoalieunbeatable-bear/hospitality-agent-evals";
+const GITHUB = "https://github.com/woodywu-sommelier/hospitality-agent-evals";
 const card = `---
 license: cc-by-4.0
 language:

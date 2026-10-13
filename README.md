@@ -96,7 +96,7 @@ Code (`src/`, `bin/`, `scripts/`, `test/`): MIT, see `LICENSE`. Data (`data/`, `
 
 See `CITATION.cff`, or:
 
-> Wu, Woody. *Hospitality Agent Evals: The Aster Room*. 2026. https://github.com/aigoalieunbeatable-bear/hospitality-agent-evals
+> Wu, Woody. *Hospitality Agent Evals: The Aster Room*. 2026. https://github.com/woodywu-sommelier/hospitality-agent-evals
 
 ## About
 
