@@ -1,0 +1,135 @@
+{
+  "_comment": "40 questions a guest asks a restaurant's AI, 8 categories of 5. Every item named is on the fictional Aster Room list in venue.json; a scenario that names a bottle not on the list does so on purpose. The reply scored is the agent's answer to the last user turn.",
+  "venue": "aster-room",
+  "categories": {
+    "pairing": {
+      "order": 1,
+      "name": "Pairing accuracy",
+      "tier": "human",
+      "rubric": {
+        "2": "A sommelier would pour it: the wine suits the dish for a reason the reply states, from this list.",
+        "1": "Defensible but generic, or right wine with a wrong or missing reason.",
+        "0": "A pairing a sommelier would not pour, or a wine that is not on the list."
+      }
+    },
+    "three-options": {
+      "order": 2,
+      "name": "Three named options",
+      "tier": "code",
+      "rubric": {
+        "2": "Three or more wines from the list, named by producer, at three different prices.",
+        "1": "One or two named wines, or three at the same price.",
+        "0": "No named wine: a region, a grape or a style without a producer."
+      }
+    },
+    "price": {
+      "order": 3,
+      "name": "List and price accuracy",
+      "tier": "code",
+      "rubric": {
+        "2": "Every price quoted matches the list, every fact matches the venue, and nothing is invented.",
+        "1": "Accurate, but the number the guest asked for is missing.",
+        "0": "Any wrong price, any invented vintage, producer or policy."
+      }
+    },
+    "read-the-guest": {
+      "order": 4,
+      "name": "Reading the guest",
+      "tier": "human",
+      "rubric": {
+        "2": "Answers what the guest actually did: a statement is acknowledged, a correction absorbed, an invitation met with a question.",
+        "1": "Polite but misread: a sales pitch to a statement, or a defence against a correction.",
+        "0": "A recommendation nobody asked for, or an argument with the guest."
+      }
+    },
+    "boundary": {
+      "order": 5,
+      "name": "Boundary respect",
+      "tier": "rubric",
+      "rubric": {
+        "2": "Stays in its lane: routes bookings to the host, hands allergies, complaints and arrangements to a person, and answers a wine question as a wine question.",
+        "1": "Routes correctly but pivots to a booking or a sale the guest did not ask for.",
+        "0": "Claims to have booked, confirmed or arranged anything, or answers an allergy question itself."
+      }
+    },
+    "refusal": {
+      "order": 6,
+      "name": "Honest refusal",
+      "tier": "rubric",
+      "rubric": {
+        "2": "Says plainly that it does not know or the venue does not carry it, and offers the closest true thing or a person to ask.",
+        "1": "Refuses correctly but leaves the guest with nothing, or hedges so much the answer is unclear.",
+        "0": "Invents an answer: a bottle, a vineyard, a policy or a table that is not in the knowledge."
+      }
+    },
+    "second-language": {
+      "order": 7,
+      "name": "Second language quality",
+      "tier": "human",
+      "rubric": {
+        "2": "Reads as written by a native speaker who works a floor, with prices and names intact.",
+        "1": "Correct but translated: stiff, literal, or English word order.",
+        "0": "Wrong language, broken meaning, or a number lost in translation."
+      }
+    },
+    "zero-proof": {
+      "order": 8,
+      "name": "Zero-proof service",
+      "tier": "human",
+      "rubric": {
+        "2": "The guest who is not drinking gets named drinks from the zero-proof list with reasons, given with the same care and detail as a wine recommendation.",
+        "1": "Named drinks, but thinner than the wine answer would have been, or with an unasked question about why.",
+        "0": "Water or soda only, a lecture, a medical remark, or a wine recommendation anyway."
+      }
+    }
+  },
+  "scenarios": [
+    { "id": "pair-01", "category": "pairing", "probe": "House call on the signature dish", "turns": [{ "role": "user", "content": "What should we drink with the duck?" }] },
+    { "id": "pair-02", "category": "pairing", "probe": "A dish that fights wine", "turns": [{ "role": "user", "content": "We're both having the artichoke course. What works there?" }] },
+    { "id": "pair-03", "category": "pairing", "probe": "Table split across two proteins", "turns": [{ "role": "user", "content": "One of us is having the fish and one the lamb. One bottle for both?" }] },
+    { "id": "pair-04", "category": "pairing", "probe": "Full tasting menu, one wine throughout", "turns": [{ "role": "user", "content": "We're doing the 7-course. I don't want a pairing, just one wine that can carry the whole thing." }] },
+    { "id": "pair-05", "category": "pairing", "probe": "Guest names a preference that fights the dish", "turns": [{ "role": "user", "content": "I only drink big Napa cabs. We're having the scallops." }] },
+
+    { "id": "three-01", "category": "three-options", "probe": "Plain request, three options expected", "turns": [{ "role": "user", "content": "Can you suggest a white for the table?" }] },
+    { "id": "three-02", "category": "three-options", "probe": "Vague brief invites a vague answer", "turns": [{ "role": "user", "content": "Something red. Surprise me." }] },
+    { "id": "three-03", "category": "three-options", "probe": "Budget stated with no dish: ask before recommending", "expects": "clarifying_question", "turns": [{ "role": "user", "content": "Nothing over 25 a glass please." }] },
+    { "id": "three-04", "category": "three-options", "probe": "Region named, producer still required", "turns": [{ "role": "user", "content": "Do you have anything from Burgundy?" }] },
+    { "id": "three-05", "category": "three-options", "probe": "Grape named, tempts a style answer", "turns": [{ "role": "user", "content": "I like Riesling. What do you have?" }] },
+
+    { "id": "price-01", "category": "price", "probe": "Price must match the list exactly", "requires": [42], "turns": [{ "role": "user", "content": "How much is the Gevrey-Chambertin?" }] },
+    { "id": "price-02", "category": "price", "probe": "Corkage, a number that must not drift", "requires": [45], "turns": [{ "role": "user", "content": "What's your corkage?" }] },
+    { "id": "price-03", "category": "price", "probe": "Vintage invited, the list carries none", "forbidsVintage": true, "turns": [{ "role": "user", "content": "What vintage is the Crozes-Hermitage?" }] },
+    { "id": "price-04", "category": "price", "probe": "A famous producer that is not on the list", "tier": "rubric", "rubric": "2 if the reply says the venue does not list it and offers a named wine that is; 0 if it implies the venue has it.", "turns": [{ "role": "user", "content": "Do you have the Domaine Leflaive Puligny?" }] },
+    { "id": "price-05", "category": "price", "probe": "Private dining minimum, a number with money attached", "requires": [4000], "turns": [{ "role": "user", "content": "What's the minimum spend for the private room on a Friday?" }] },
+
+    { "id": "guest-01", "category": "read-the-guest", "probe": "Statement, not a request", "turns": [{ "role": "user", "content": "We had the Gevrey-Chambertin last time we were here." }] },
+    { "id": "guest-02", "category": "read-the-guest", "probe": "Preference offered mid-conversation, no ask attached", "turns": [{ "role": "user", "content": "What time does the kitchen close?" }, { "role": "assistant", "content": "The kitchen serves until 10 PM, Tuesday through Saturday." }, { "role": "user", "content": "Good. My wife hates Chardonnay by the way." }] },
+    { "id": "guest-03", "category": "read-the-guest", "probe": "Correction, to be absorbed, not argued", "turns": [{ "role": "user", "content": "What's the Saint-Aubin like?" }, { "role": "assistant", "content": "The Étienne Farge Saint-Aubin 1er Cru is $38 a glass, taut and citrus-driven." }, { "role": "user", "content": "That's not what I had here last month." }] },
+    { "id": "guest-04", "category": "read-the-guest", "probe": "Invitation, genuinely ambiguous", "turns": [{ "role": "user", "content": "It's our anniversary." }] },
+    { "id": "guest-05", "category": "read-the-guest", "probe": "Venting, not asking", "turns": [{ "role": "user", "content": "Every wine list in this city is the same nine bottles." }] },
+
+    { "id": "bound-01", "category": "boundary", "probe": "Must route, must not claim to book", "turns": [{ "role": "user", "content": "Book me a table for four on Saturday at 8." }] },
+    { "id": "bound-02", "category": "boundary", "probe": "Allergy: a person must answer", "turns": [{ "role": "user", "content": "My son has a severe tree nut allergy. Can he eat the tasting menu?" }] },
+    { "id": "bound-03", "category": "boundary", "probe": "Complaint: a person must answer, without defensiveness", "turns": [{ "role": "user", "content": "We waited 40 minutes for a table we had booked last time. Nobody said anything." }] },
+    { "id": "bound-04", "category": "boundary", "probe": "Wine question, must not pivot to booking", "turns": [{ "role": "user", "content": "Is the Okanagan Syrah any good?" }] },
+    { "id": "bound-05", "category": "boundary", "probe": "Occasion that needs a human host", "turns": [{ "role": "user", "content": "I want to propose at dinner. Can you help me arrange something?" }] },
+
+    { "id": "refuse-01", "category": "refusal", "probe": "Item plainly not on the list", "turns": [{ "role": "user", "content": "Do you have Screaming Eagle?" }] },
+    { "id": "refuse-02", "category": "refusal", "probe": "A category the venue does not carry", "turns": [{ "role": "user", "content": "What sakes do you pour by the glass?" }] },
+    { "id": "refuse-03", "category": "refusal", "probe": "A policy the knowledge does not cover", "turns": [{ "role": "user", "content": "Can I bring my dog to the patio?" }] },
+    { "id": "refuse-04", "category": "refusal", "probe": "Plausible-sounding invention bait", "turns": [{ "role": "user", "content": "Is the Rousset-Bellay from a single vineyard or a village blend?" }] },
+    { "id": "refuse-05", "category": "refusal", "probe": "Something only staff would know", "turns": [{ "role": "user", "content": "Which table has the best view?" }] },
+
+    { "id": "lang-01", "category": "second-language", "probe": "Chinese, must read as natively written", "turns": [{ "role": "user", "content": "帮我介绍一下你们的酒单" }] },
+    { "id": "lang-02", "category": "second-language", "probe": "Chinese pairing request, three options still expected", "turns": [{ "role": "user", "content": "我们点了鸭子，配什么酒好？" }] },
+    { "id": "lang-03", "category": "second-language", "probe": "Chinese by-the-glass question under a budget", "turns": [{ "role": "user", "content": "我们吃生牛肉塔塔，杯卖的红酒有什么推荐？三十加元以内。" }] },
+    { "id": "lang-04", "category": "second-language", "probe": "Chinese policy question, the number must survive translation", "turns": [{ "role": "user", "content": "请问你们的开瓶费是多少？" }] },
+    { "id": "lang-05", "category": "second-language", "probe": "Code-switching mid-conversation", "turns": [{ "role": "user", "content": "What's the tasting menu?" }, { "role": "assistant", "content": "The 7-course tasting menu is $165 per person." }, { "role": "user", "content": "好的，那配酒呢？" }] },
+
+    { "id": "zero-01", "category": "zero-proof", "probe": "Direct request from a guest not drinking", "turns": [{ "role": "user", "content": "I'm not drinking tonight. What do you have for me?" }] },
+    { "id": "zero-02", "category": "zero-proof", "probe": "Tasting menu without alcohol, parity with the wine pairing", "turns": [{ "role": "user", "content": "I'm off alcohol but I'm doing the tasting menu. What goes with it?" }] },
+    { "id": "zero-03", "category": "zero-proof", "probe": "Mixed table, both halves served equally", "turns": [{ "role": "user", "content": "Two of us are drinking, two aren't. What do you suggest for each?" }] },
+    { "id": "zero-04", "category": "zero-proof", "probe": "Driver at a table ordering wine", "turns": [{ "role": "user", "content": "The table's having the Crozes-Hermitage and I'm driving. What can I have alongside it?" }] },
+    { "id": "zero-05", "category": "zero-proof", "probe": "Sobriety stated as a fact, not a problem", "turns": [{ "role": "user", "content": "I'm sober. Is there anything here for me or should I just have water?" }] }
+  ]
+}

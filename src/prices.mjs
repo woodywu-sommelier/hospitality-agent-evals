@@ -20,7 +20,8 @@ function amountFrom(raw) {
 // A ceiling or a floor is skipped, so an agent is never marked wrong for echoing
 // the guest. "About $24" is still checked: that is a quote, however hedged.
 const LIMIT_BEFORE = /(?:under|over|below|above|up to|less than|more than|no more than|at most|at least|within)\s*$/i;
-const LIMIT_AFTER = /^\s*(?:以内|以下|以上|之内)/;
+// "$25 or under" puts the limit word after the amount.
+const LIMIT_AFTER = /^\s*(?:以内|以下|以上|之内|(?:or|and)\s+(?:under|less|below|lower|over|more|above|up)\b)/i;
 
 function isLimit(value, index, length) {
   return LIMIT_BEFORE.test(value.slice(Math.max(0, index - 16), index)) || LIMIT_AFTER.test(value.slice(index + length));
@@ -113,10 +114,15 @@ export function validateCitedPrices(value, venue) {
     // menu is $165" does not price the Crémant at $165.
     const priorItem = named.filter((mention) => mention.end <= price.index).at(-1);
     const nextItem = named.find((mention) => mention.index > (priorItem?.index ?? -1));
+    // An item takes only the first price after it. In "the tasting menu is $165,
+    // with pairings at $95 or $155" the later amounts price something else, and in
+    // "the Étienne Farge ($38) and the Crozes-Hermitage ($24)" the $24 belongs to a
+    // wine named by appellation alone. Both came from real model replies.
     const isAssociated =
       priorItem !== undefined &&
       (nextItem === undefined || price.index < nextItem.index) &&
-      !SENTENCE_BREAK.test(value.slice(priorItem.end, price.index));
+      !SENTENCE_BREAK.test(value.slice(priorItem.end, price.index)) &&
+      !cited.some((other) => other.index >= priorItem.end && other.index < price.index);
     return isAssociated && priorItem.item.price !== price.amount;
   });
   return { cited, errors };

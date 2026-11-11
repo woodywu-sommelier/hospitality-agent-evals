@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Aster Room Test</title>
+  <meta name="description" content="Forty questions a guest asks a restaurant's AI about wine. Paste your agent's replies and check every price against the list.">
+  <style>
+    @font-face { font-family: "Bodoni Moda"; src: url("https://woodywusommelier.com/assets/fonts/bodoni-moda-latin.woff2") format("woff2"); font-weight: 400 900; font-display: swap; }
+    @font-face { font-family: "EB Garamond"; src: url("https://woodywusommelier.com/assets/fonts/eb-garamond-latin.woff2") format("woff2"); font-weight: 400 800; font-display: swap; }
+    :root {
+      --paper: #f4eee3; --card: #faf6ee; --ink: #1d1915; --soft: #5d544a; --rule: #cfc4b2;
+      --red: #a3271f; --ok: #2f5d3a;
+      --display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+      --text: "EB Garamond", Garamond, Georgia, serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 19px/1.5 var(--text); }
+    main { max-width: 860px; margin: 0 auto; padding: 40px 20px 72px; }
+    .frame { border: 1px solid var(--rule); padding: 36px 32px; background: var(--paper); }
+    .kicker { font: 11px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin: 0 0 14px; }
+    h1 { font: 500 44px/1.05 var(--display); margin: 0 0 14px; text-wrap: balance; }
+    h2 { font: 500 28px/1.15 var(--display); margin: 0 0 8px; }
+    .lede { font-style: italic; font-size: 21px; color: var(--soft); margin: 0; max-width: 34em; }
+    section { border-top: 1px solid var(--rule); margin-top: 36px; padding-top: 28px; }
+    p { margin: 0 0 12px; }
+    a { color: var(--red); text-underline-offset: 3px; }
+    label { display: block; font: 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); margin: 18px 0 6px; }
+    select, textarea, button { font: inherit; color: inherit; }
+    select, textarea { width: 100%; background: var(--card); border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px; }
+    textarea { min-height: 130px; resize: vertical; line-height: 1.4; }
+    textarea.data { font: 13px/1.5 var(--mono); min-height: 170px; white-space: pre; overflow-x: auto; }
+    select:focus-visible, textarea:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+    .guest { border-left: 2px solid var(--ink); padding: 2px 0 2px 16px; margin: 16px 0 0; }
+    .guest p { margin: 0 0 6px; }
+    .guest .who { font: 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+    .guest .said { font-size: 22px; }
+    .guest .earlier { color: var(--soft); }
+    .probe { color: var(--soft); font-style: italic; margin: 10px 0 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    button { background: var(--ink); color: var(--paper); border: 1px solid var(--ink); border-radius: 2px; padding: 9px 16px; cursor: pointer; font-size: 17px; }
+    button.quiet { background: transparent; color: var(--ink); }
+    button:hover { background: var(--red); border-color: var(--red); color: var(--paper); }
+    .result { margin-top: 18px; }
+    .verdict { font: 500 24px/1.2 var(--display); margin: 0 0 6px; }
+    .verdict.bad, .bad { color: var(--red); }
+    .verdict.good, .good { color: var(--ok); }
+    .note { color: var(--soft); font-size: 17px; }
+    ul.plain { list-style: none; padding: 0; margin: 10px 0 0; }
+    ul.plain li { padding: 7px 0; border-top: 1px solid var(--rule); display: flex; gap: 12px; justify-content: space-between; align-items: baseline; }
+    ul.plain li span:last-child { font: 12px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+    .rubric { margin: 12px 0 0; padding: 0; list-style: none; }
+    .rubric li { padding: 6px 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 2em 1fr; }
+    .rubric b { font-family: var(--display); }
+    .table-wrap { overflow-x: auto; margin-top: 16px; }
+    table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 18px; }
+    th, td { text-align: left; padding: 8px 12px 8px 0; border-top: 1px solid var(--rule); vertical-align: baseline; }
+    th { font: 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); border-top: 0; }
+    td.num, th.num { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; }
+    details { margin-top: 16px; }
+    summary { cursor: pointer; color: var(--red); }
+    pre { background: var(--card); border: 1px solid var(--rule); padding: 14px; font: 13px/1.5 var(--mono); white-space: pre-wrap; max-height: 320px; overflow: auto; margin: 10px 0 0; }
+    .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 14px; }
+    .tiers h3 { font: 500 20px/1.2 var(--display); margin: 0 0 4px; }
+    .tiers p { font-size: 17px; color: var(--soft); margin: 0; }
+    footer { margin-top: 36px; border-top: 1px solid var(--rule); padding-top: 20px; color: var(--soft); font-size: 17px; }
+    @media (max-width: 640px) {
+      main { padding: 16px 16px 48px; }
+      .frame { padding: 24px 18px; }
+      h1 { font-size: 33px; }
+      .tiers { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="frame">
+    <p class="kicker">The Aster Room / Hospitality Agent Evals</p>
+    <h1>Forty questions a guest asks a restaurant's AI.</h1>
+    <p class="lede">Paste what your agent said. Every price is checked against the list, code scores what code can, and the rest is left for a sommelier.</p>
+
+    <section aria-labelledby="one-h">
+      <p class="kicker">One question</p>
+      <h2 id="one-h">Try a single reply.</h2>
+      <p class="note">Pick a question, give your agent the venue knowledge below, and paste its answer.</p>
+      <label for="pick">The guest's question</label>
+      <select id="pick"></select>
+      <div class="guest" id="guest"></div>
+      <p class="probe" id="probe"></p>
+      <label for="reply">Your agent's reply</label>
+      <textarea id="reply" placeholder="Paste the reply here."></textarea>
+      <div class="actions">
+        <button type="button" class="quiet" id="sample">Show a reply with a wrong price</button>
+      </div>
+      <div class="result" id="one-result" aria-live="polite"></div>
+      <details>
+        <summary>The venue knowledge your agent should be given</summary>
+        <pre id="system"></pre>
+        <div class="actions"><button type="button" class="quiet" id="copy-system">Copy it</button></div>
+      </details>
+    </section>
+
+    <section aria-labelledby="run-h">
+      <p class="kicker">A full run</p>
+      <h2 id="run-h">Score all forty.</h2>
+      <p class="note">Send each line of <a href="data/requests.jsonl" download>requests.jsonl</a> to your agent. Paste the answers here, one <code>{"id": "pair-01", "reply": "..."}</code> per line.</p>
+      <label for="replies">Replies, one JSON object per line</label>
+      <textarea id="replies" class="data" spellcheck="false"></textarea>
+      <details>
+        <summary>Add scores from a sommelier or a judge</summary>
+        <label for="scores">Scores as JSON, 0, 1 or 2 each</label>
+        <textarea id="scores" class="data" spellcheck="false" placeholder='{"pair-01": 2, "guest-03": 1}'></textarea>
+      </details>
+      <div class="actions">
+        <button type="button" id="score">Score the run</button>
+        <button type="button" class="quiet" id="load-example">Load the six example replies</button>
+      </div>
+      <div class="result" id="run-result" aria-live="polite"></div>
+    </section>
+
+    <section aria-labelledby="how-h">
+      <p class="kicker">How it scores</p>
+      <h2 id="how-h">Three tiers, and one rule above them.</h2>
+      <div class="tiers">
+        <div><h3>Code</h3><p>Counted and checked against the list. Three named wines, the right price, no invented vintage.</p></div>
+        <div><h3>Rubric</h3><p>A person or a model judge. Did it claim to book? Did it invent a bottle? Name the judge when you report.</p></div>
+        <div><h3>Sommelier</h3><p>Taste and reading the guest. Never automated, and shown as pending until a person scores it.</p></div>
+      </div>
+      <p style="margin-top:18px">A wrong price fails the question, whatever it was testing. There is no overall score until every question has one, because a partial number gets quoted as the whole one.</p>
+      <p>The checker is built to miss an error before it invents one. It will not catch a price written out in words, and it cannot tell whether a pairing is any good.</p>
+    </section>
+
+    <footer>
+      <p>The Aster Room is fictional. Every producer, price and policy was invented for this test. This page runs in your browser, and nothing you paste leaves it.</p>
+      <p><a href="https://github.com/woodywu-sommelier/hospitality-agent-evals">Code and tests on GitHub</a> · <a href="https://huggingface.co/datasets/woodywu-sommelier/hospitality-agent-evals">The dataset</a> · <a href="https://woodywusommelier.com/consulting/ai-teams/">A test set on your own venue and data</a></p>
+      <p>By Woody Wu, sommelier, hospitality operator and AI builder.</p>
+    </footer>
+  </div>
+</main>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

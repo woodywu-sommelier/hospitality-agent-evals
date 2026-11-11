@@ -6,6 +6,8 @@ These are the questions I test The House Somm with, the AI sommelier I built, ad
 
 The data is also on Hugging Face, with a browsable table: https://huggingface.co/datasets/woodywu-sommelier/hospitality-agent-evals
 
+**Try it without installing anything:** [The Aster Room Test](https://huggingface.co/spaces/woodywu-sommelier/aster-room-test) runs the scorer in your browser. Paste one reply or a full run and every price is checked against the list.
+
 ## Why this exists
 
 The failures that cost a restaurant money are specific, and most general benchmarks do not look for them:
@@ -28,6 +30,7 @@ A sommelier notices every one of these straight away, and a generic eval notices
 | `src/score.mjs` | The scorer |
 | `bin/requests.mjs` | Prints each scenario as a system message and conversation, ready for your agent |
 | `bin/score.mjs` | Scores your agent's replies and writes a review sheet for the rest |
+| `space/` | The browser version on Hugging Face, built by `node scripts/build-space.mjs` |
 
 No dependencies. Node 20 or later.
 

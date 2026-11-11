@@ -88,6 +88,8 @@ Forty questions a guest asks a restaurant's AI about wine, the list to answer th
 
 These are the questions I test The House Somm with, the AI sommelier I built, adapted so anyone can run them against any agent. The venue, The Aster Room, is fictional. Every producer, price and policy in it was invented for this set.
 
+**Try it in your browser:** [The Aster Room Test](https://huggingface.co/spaces/woodywu-sommelier/aster-room-test). Paste an agent's replies and every price is checked against the list.
+
 **The price checker and the scorer are on GitHub:** ${GITHUB}
 
 ## Why it exists

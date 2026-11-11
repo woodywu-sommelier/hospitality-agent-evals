@@ -1,0 +1,33 @@
+{
+  "_comment": "The Aster Room is fictional. Every producer, price and policy here was invented for this test set. Give the agent under test the knowledge text below as everything it knows about the venue; the item lists are the ground truth the price checker scores against.",
+  "id": "aster-room",
+  "name": "The Aster Room",
+  "currency": "CAD",
+  "knowledge": "# The Aster Room: House Knowledge\n\n## The room\nModern Canadian fine dining, wine-led, 54 seats plus an 8-seat chef's counter and a 14-seat private cellar room (\"The Vault\").\nA downtown room in Western Canada. Executive Chef: Mara Delacroix. Wine Director: on the floor nightly.\n\n## Hours\n- Dinner: Tuesday to Saturday, 5:00 PM to 11:00 PM (kitchen closes 10:00 PM)\n- Closed Sunday and Monday\n- Chef's counter: two seatings, 5:30 PM and 8:30 PM, Thursday to Saturday only\n\n## Menu (current season)\n- À la carte, plus a 7-course tasting menu at $165 per person\n- Signatures: dry-aged duck with saskatoon jus; bison tartare with juniper; sablefish in koji beurre blanc; wild mushroom agnolotti (vegetarian)\n- Tasting menu has vegetarian and pescatarian versions with 48 hours notice\n- Dietary: gluten-free easily accommodated; strict allergies handled with advance notice. The kitchen works with nuts, shellfish and dairy.\n\n## Wine program\n- About 450 labels, focused on grower Champagne, Burgundy, Northern Rhône, and top Canadian producers (Okanagan, Niagara)\n- Grower Champagne is the house calling card. Ask about the current Maison Perrot and Clos Verrier allocations.\n- Wine pairing with the tasting menu: $95 classic, $155 cellar reserve\n- Corkage: $45 per 750ml bottle, maximum two bottles, not offered on wines already on our list\n\n## By the glass (current list, rotates weekly)\nAlways offer three named options at different prices when recommending.\n\nSparkling\n- Clos Verrier, Crémant de Bourgogne: $17\n- Maison Perrot, Blanc de Blancs, Champagne: $28\n\nWhite\n- Domaine Sauveterre, Bourgogne Blanc: $19\n- Kühn-Weiss, Riesling Trocken, Mosel: $22\n- Étienne Farge, Saint-Aubin 1er Cru: $38\n\nRed\n- Vallon des Pierres, Côtes du Rhône: $16\n- Ridgeline Estate, Okanagan Syrah: $21\n- Domaine Chapelle-Noire, Crozes-Hermitage: $24\n- Rousset-Bellay, Gevrey-Chambertin: $42\n\n## House pairing ladders\nThese are the Wine Director's approved three-glass progressions. Keep the order and exact prices when the named dish is requested, but explain each choice in your own concise voice.\n- Bison tartare pairing ladder: Vallon des Pierres, Côtes du Rhône ($16); Ridgeline Estate, Okanagan Syrah ($21); Rousset-Bellay, Gevrey-Chambertin ($42). The juniper and lean raw meat need freshness first, savoury Syrah as the house recommendation, then Burgundy's perfume and fine tannin as the step up.\n\n## Zero proof program (same glassware, same service, same care)\n- Verjus and white peach spritz, salted: $12\n- Alcohol-removed Riesling, Mosel: $13\n- Seedling No. 3: fermented barley tea, bitter orange, cardamom: $14\n- Smoked cherry and hibiscus shrub, long: $14\nThese are made to pair, not to fill a gap. Recommend them by name with a reason, exactly as with wine.\n\n## Policies\n- Dress: smart casual, no sportswear or ball caps\n- Children: welcome, though the room is best suited to guests 12 and over\n- Cancellation: 24 hours notice; parties of 7 or more require a card and 48 hours notice\n- Parking: street after 6 PM; a public lot one block north\n- Pets: service animals only\n- Gift cards: available online and at the door\n\n## Private dining: The Vault\n- Seats 14 (seated) or 20 (standing reception), fully enclosed within the cellar\n- Minimum spend: $2,500 Tuesday to Thursday, $4,000 Friday and Saturday\n- Set menus from $120 per person; custom wine programs available with the Wine Director\n\n## Reservations\nThe assistant does not book tables. Reservations are made by the guest through the booking link or by phone, and a host confirms them.\n",
+  "wineItems": [
+    { "name": "Clos Verrier, Crémant de Bourgogne", "price": 17 },
+    { "name": "Maison Perrot, Blanc de Blancs, Champagne", "price": 28 },
+    { "name": "Domaine Sauveterre, Bourgogne Blanc", "price": 19 },
+    { "name": "Kühn-Weiss, Riesling Trocken, Mosel", "price": 22 },
+    { "name": "Étienne Farge, Saint-Aubin 1er Cru", "price": 38 },
+    { "name": "Vallon des Pierres, Côtes du Rhône", "price": 16 },
+    { "name": "Ridgeline Estate, Okanagan Syrah", "price": 21 },
+    { "name": "Domaine Chapelle-Noire, Crozes-Hermitage", "price": 24 },
+    { "name": "Rousset-Bellay, Gevrey-Chambertin", "price": 42 }
+  ],
+  "zeroProofItems": [
+    { "name": "Verjus and white peach spritz, salted", "price": 12 },
+    { "name": "Alcohol-removed Riesling, Mosel", "price": 13 },
+    { "name": "Seedling No. 3", "price": 14 },
+    { "name": "Smoked cherry and hibiscus shrub, long", "price": 14 }
+  ],
+  "otherPricedItems": [
+    { "name": "7-course tasting menu", "price": 165 },
+    { "name": "classic wine pairing", "price": 95 },
+    { "name": "cellar reserve wine pairing", "price": 155 },
+    { "name": "Corkage", "price": 45 },
+    { "name": "Vault minimum spend Tuesday to Thursday", "price": 2500 },
+    { "name": "Vault minimum spend Friday and Saturday", "price": 4000 },
+    { "name": "Set menus", "price": 120 }
+  ]
+}

@@ -74,3 +74,17 @@ test("a price is never pinned to a wine named in an earlier sentence", () => {
   assert.deepEqual(wrong("Clos Verrier两款配额酒，每杯28加元。"), ["28加元"]);
   assert.deepEqual(wrong("The Clos Verrier is lovely. It is $28 a glass."), [], "across a sentence, a real list price passes");
 });
+
+// Three false alarms found on 9 Nov 2026 by running real model replies through
+// the checker. Each sentence below is correct against the list.
+test("an item takes only the first price after it", () => {
+  assert.deepEqual(wrong("The 7-course tasting menu is $165 per person, with wine pairings at $95 (classic) or $155 (cellar reserve)."), []);
+  assert.deepEqual(wrong("The Étienne Farge, Saint-Aubin 1er Cru ($38) suits the sablefish, and the Crozes-Hermitage ($24) suits the lamb."), []);
+  // The first price after a named item is still checked.
+  assert.deepEqual(wrong("The 7-course tasting menu is $155 per person, with wine pairings at $95."), ["$155"]);
+});
+
+test("a limit written after the amount is not a quote", () => {
+  assert.deepEqual(wrong("Here are three good picks at $25 or under, each at a different price."), []);
+  assert.deepEqual(wrong("Here are the by-the-glass wines at $25 or less."), []);
+});
