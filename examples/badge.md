@@ -5,7 +5,7 @@
 3. Replace `YOUR-ORG`, `YOUR-REPO` and `main` below. Shields must be able to read the JSON without credentials. For private code, publish only the reviewed badge JSON to a public location you control.
 
 ```markdown
-[![Floor-Tested machine-verifiable passes](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FYOUR-ORG%2FYOUR-REPO%2Fmain%2Ffloor-tested.json)](https://woodywusommelier.com/floor-tested/)
+[![Floor-Tested automated scenario checks](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FYOUR-ORG%2FYOUR-REPO%2Fmain%2Ffloor-tested.json)](https://woodywusommelier.com/floor-tested/)
 ```
 
 Place the selected packs next to the badge. The badge is self-reported and only updates when you replace the committed JSON. Do not compare badges with different pack selections as though they were one scoreboard.

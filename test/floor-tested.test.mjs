@@ -41,7 +41,7 @@ test("local echo run writes badge, report and safe summary; threshold fails afte
     assert.deepEqual(Object.keys(badge).sort(), ["color", "label", "message", "schemaVersion"]);
     assert.equal(badge.schemaVersion, 1);
     assert.equal(badge.label, "floor-tested");
-    assert.match(badge.message, /^\d+\/48$/);
+    assert.equal(badge.message, "0/41 automated · 7 need review");
     assert.match(badge.color, /^(red|yellow|brightgreen)$/);
     const report = readFileSync(join(dir, "floor-tested-report.md"), "utf8");
     assert.match(report, /Needs a person/);

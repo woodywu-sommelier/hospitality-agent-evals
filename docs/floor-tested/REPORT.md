@@ -51,3 +51,9 @@ Only full machine-verifiable passes contribute to the numerator; all selected sc
 - This report is in the following documentation commit.
 
 Woody to decide: approve the **Floor-Tested** name, whether to publish a GitHub Marketplace listing, and which version tag to use. Before sharing badge links, verify the separate site landing page is live and use a reviewed commit or tag in the example workflow.
+
+## Review by Claude Code, 22 Nov 2026 (uncommitted on this branch)
+
+Badge denominator changed. Only 9 of the 40 Aster Room scenarios are code tier (20 human, 11 rubric), so the old `pass/all` badge capped a perfect agent at 9/40 and always rendered red. No team would display that. The badge, summary, colour and `fail-under` now use machine checks only: `floor-tested 9/9 checked · 31 to review`. Replies that need a person are reported as "to review", never as passes. The echo badge is now `0/41 checked · 7 to review`. README, `action.yml`, the test and the self-test workflow were updated to match; `npm test` is green (20 of 20). The landing page `woodywusommelier.com/floor-tested/` is built on site branch `ws/floor-tested`, not deployed.
+
+Name and wording settled 22 Nov: product **Floor-Tested**, descriptor "Open-source scenario tests for hospitality AI", badge `floor-tested 9/9 automated · 31 need review`. The report's closing line now keeps the paid review separate from the score.

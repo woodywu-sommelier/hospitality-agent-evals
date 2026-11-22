@@ -81,19 +81,21 @@ Score each reply in the sheet 0, 1 or 2 against its rubric, save the scores as `
 
 ## Floor-Tested in CI
 
-Add this step to a job with Node 20 or newer. Replace the ref with a reviewed commit after release. [Complete workflow](examples/workflow.yml).
+**Floor-Tested: open-source scenario tests for hospitality AI.** Run your agent against restaurant service scenarios and see which replies still need a person. It is a scenario suite, not a test of live service and not a certification.
+
+Add this step to a job with Node 20 or newer. Pin to a release tag or a commit you have reviewed. [Complete workflow](examples/workflow.yml).
 
 ```yaml
 steps:
   - name: Floor-Tested
-    uses: woodywu-sommelier/hospitality-agent-evals@REPLACE_WITH_REVIEWED_COMMIT
+    uses: woodywu-sommelier/hospitality-agent-evals@v0.1.0
     with:
       agent-url: ${{ secrets.HOSPITALITY_AGENT_URL }}
       agent-key: ${{ secrets.HOSPITALITY_AGENT_KEY }}
       packs: aster-room,constance-lite
       timeout-seconds: '30'
-      # Optional minimum percentage of all selected scenarios:
-      # fail-under: '25'
+      # Optional minimum percentage of machine checks that must pass:
+      # fail-under: '80'
 ```
 
 The action sends one sequential POST per scenario, with a short pause between requests. Your endpoint accepts `{"messages":[...]}` and returns `{"reply":"..."}`. The Aster Room system message includes the fictional venue knowledge. If the endpoint requires a bearer key, use HTTPS. Alternatively, set only `agent-command` to a trusted command in your checkout. It receives the same JSON on stdin and returns plain reply text or a JSON object with a `reply` field on stdout.
@@ -111,9 +113,9 @@ The action writes `floor-tested-report.md`, `floor-tested.json` and a GitHub job
 | List and price accuracy | 0 | 0 | 5 | 0 | 0 |
 | Constance Lite | 0 | 0 | 1 | 7 | 0 |
 
-The badge for this example reads `floor-tested 0/48`. The numerator counts only full machine-verifiable passes. All selected scenarios are in the denominator, including partial answers and cases that need a person. The default `aster-room` pack has 40 scenarios. `constance-lite` adds eight public Constance questions and uses narrow English rules for explicit corrections and inventions. Ambiguous replies are left for review. The maximum automated badge count for Aster Room alone is below 40 by design. A red badge is not a hospitality quality verdict. Colors are red below 50%, yellow from 50% to below 80%, and bright green from 80%. Report the pack names next to the badge.
+The badge for this example reads `floor-tested 0/41 automated · 7 need review`. A good agent on the default pack reads something like `floor-tested 9/9 automated · 31 need review`. The first number is full passes on automated checks: prices against the list, counts of named options, explicit corrections or inventions of a wine that was never made. The second is every reply a machine could judge, including partial answers and missing replies. "Need review" counts replies only a person can judge, such as whether a pairing is right. They are never passes. On the default `aster-room` pack, 9 of the 40 scenarios are scored by code; a wrong price fails any scenario, so the other 31 can still fail automatically but can only pass with a person. `constance-lite` adds eight public Constance questions and uses narrow English rules; ambiguous replies need review. Colors are red below 50% of automated checks, yellow from 50% to below 80%, and bright green from 80%. A red badge is not a hospitality quality verdict. Report the pack names next to the badge.
 
-If `fail-under` is set, a run below that percentage of full machine passes exits with an error after writing its files. Missing replies also fail the step. Set thresholds with the number of human-only cases in mind. See [badge setup](examples/badge.md) to publish just the reviewed badge JSON yourself.
+If `fail-under` is set, a run below that percentage of automated checks exits with an error after writing its files. Missing replies also fail the step. See [badge setup](examples/badge.md) to publish just the reviewed badge JSON yourself.
 
 **Privacy:** No telemetry, analytics or phone-home. In HTTP mode the action sends requests only to the endpoint you configure and refuses redirects. Command mode runs the command you supply, so use trusted code and control its network access separately. The configured URL and bearer key are masked and redacted where matched; the action cannot identify unknown secrets or personal data that your agent might return. The example uploads no output files. Keep the full report private unless you have reviewed it. A Shields badge is optional and fetches only the public JSON you choose to publish.
 

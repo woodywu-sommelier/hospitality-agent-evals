@@ -18,4 +18,4 @@ jobs:
       - name: Verify action artifacts
         run: |
           test -s floor-tested-report.md
-          test "$(node -p 'require("./floor-tested.json").message')" = '0/48'
+          test "$(node -p 'require("./floor-tested.json").message')" = '0/41 automated · 7 need review'

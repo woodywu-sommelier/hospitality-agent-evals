@@ -105,12 +105,17 @@ function render(rows, packs) {
     grouped.get(row.category)[row.status]++;
     counts[row.status]++;
   }
-  const score = `${counts.pass}/${rows.length}`;
-  const percent = counts.pass * 100 / rows.length;
+  // Only some scenarios can be judged by code. Scoring against all of them would
+  // cap a perfect agent at 9/40 on Aster Room, so the badge counts the checks a
+  // machine made and says plainly how many replies still need a person.
+  const checked = counts.pass + counts.partial + counts.fail + counts.error;
+  const score = `${counts.pass}/${checked}`;
+  const percent = checked ? counts.pass * 100 / checked : 0;
+  const message = counts.pending ? `${score} automated · ${counts.pending} need review` : `${score} automated`;
   const summary = [
     "# Floor-Tested", "",
-    `**${score} machine-verifiable passes**. Packs: ${packs.join(", ")}.`, "",
-    "The denominator is every selected scenario. Pending, partial and missing replies are not passes. This is not an overall hospitality quality score.", "",
+    `**${counts.pass} of ${checked} automated checks passed.** ${counts.pending} of ${rows.length} replies need review by a person. Packs: ${packs.join(", ")}.`, "",
+    "Floor-Tested is a scenario suite, not a test of live service and not a certification. Partial answers and missing replies count as checks that did not pass. Replies that need review are not passes and not failures.", "",
     "| Category | Pass | Partial | Fail | Needs a person | No reply |",
     "| --- | ---: | ---: | ---: | ---: | ---: |",
     ...[...grouped].map(([category, c]) => `| ${category} | ${c.pass} | ${c.partial} | ${c.fail} | ${c.pending} | ${c.error} |`),
@@ -127,11 +132,11 @@ function render(rows, packs) {
     ...(pending.length ? pending.map((r) => [
       `### ${r.id}: ${r.pending}`, "", fence(redact(r.reply)), "",
     ].join("\n")) : ["None."]), "",
-    "Want a sommelier to review the rest? woodywusommelier.com/consulting/ai-teams/", "",
+    "Replies that need review are listed above. A sommelier review is offered separately: woodywusommelier.com/consulting/ai-teams/", "",
   ].join("\n");
   return {
-    report, summary, counts, percent, score,
-    badge: { schemaVersion: 1, label: "floor-tested", message: score, color: percent >= 80 ? "brightgreen" : percent >= 50 ? "yellow" : "red" },
+    report, summary, counts, percent, score, message,
+    badge: { schemaVersion: 1, label: "floor-tested", message, color: percent >= 80 ? "brightgreen" : percent >= 50 ? "yellow" : "red" },
   };
 }
 
@@ -187,7 +192,7 @@ async function main() {
   writeFileSync(join(output, "floor-tested-report.md"), result.report, { mode: 0o600 });
   writeFileSync(join(output, "floor-tested.json"), JSON.stringify(result.badge, null, 2) + "\n");
   if (env.GITHUB_STEP_SUMMARY) appendFileSync(env.GITHUB_STEP_SUMMARY, result.summary + "\n");
-  console.log(`Floor-Tested: ${result.score} machine-verifiable passes.`);
+  console.log(`Floor-Tested: ${result.message}.`);
   if (result.counts.error || (cutoff !== null && result.percent < cutoff)) process.exitCode = 1;
 }
 
