@@ -1,0 +1,34 @@
+name: Floor-Tested
+description: Run hospitality agent scenarios and produce a machine-verifiable badge and review report.
+branding:
+  icon: check-circle
+  color: red
+inputs:
+  agent-url:
+    description: Agent endpoint accepting messages and returning a reply. Use a GitHub secret.
+  agent-command:
+    description: Trusted command receiving messages JSON on stdin and writing a reply on stdout.
+  agent-key:
+    description: Optional bearer key for agent-url. Use a GitHub secret.
+  packs:
+    description: Comma-separated packs, aster-room and/or constance-lite.
+    default: aster-room
+  fail-under:
+    description: Optional minimum percentage of all selected scenarios that pass by machine.
+  timeout-seconds:
+    description: Maximum time per request or command, from 0.01 to 600.
+    default: '30'
+runs:
+  using: composite
+  steps:
+    - name: Run hospitality evaluations
+      shell: bash
+      env:
+        FLOOR_ACTION_PATH: ${{ github.action_path }}
+        FLOOR_AGENT_URL: ${{ inputs.agent-url }}
+        FLOOR_AGENT_COMMAND: ${{ inputs.agent-command }}
+        FLOOR_AGENT_KEY: ${{ inputs.agent-key }}
+        FLOOR_PACKS: ${{ inputs.packs }}
+        FLOOR_FAIL_UNDER: ${{ inputs.fail-under }}
+        FLOOR_TIMEOUT_SECONDS: ${{ inputs.timeout-seconds }}
+      run: node "$FLOOR_ACTION_PATH/bin/floor-tested.mjs"

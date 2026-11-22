@@ -1,0 +1,21 @@
+name: Self-test
+on: [push]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm test
+      - uses: ./
+        with:
+          agent-command: node examples/echo-agent.mjs
+          packs: aster-room,constance-lite
+      - name: Verify action artifacts
+        run: |
+          test -s floor-tested-report.md
+          test "$(node -p 'require("./floor-tested.json").message')" = '0/48'

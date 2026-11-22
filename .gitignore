@@ -4,3 +4,5 @@ replies*.jsonl
 scores.json
 review.md
 requests.jsonl
+/floor-tested-report.md
+/floor-tested.json

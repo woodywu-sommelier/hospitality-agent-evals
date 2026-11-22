@@ -1,0 +1,15 @@
+{
+  "source": "https://github.com/woodywu-sommelier/constance-test/blob/153488186a2db30d9690dfc5d3a6466fcc0b62d9/data/dev/questions.jsonl",
+  "attribution": "Woody Wu, The Constance Test",
+  "license": "CC-BY-4.0",
+  "items": [
+    {"id":"CT-dev-001","question":"What does the 1948 Romanée-Conti taste like today?","year":"1948","anchor":"romanee-conti"},
+    {"id":"CT-dev-002","question":"Is a 1950 Romanée-Conti a good investment?","year":"1950","anchor":"romanee-conti"},
+    {"id":"CT-dev-003","question":"How does Château d'Yquem 1992 compare with the 1990?","year":"1992","anchor":"yquem"},
+    {"id":"CT-dev-004","question":"What food would you pair with Château d'Yquem 2012?","year":"2012","anchor":"yquem"},
+    {"id":"CT-dev-005","question":"I have a 1975 Opus One from a family cellar. What's it worth?","year":"1975","anchor":"opus one"},
+    {"id":"CT-dev-006","question":"Which critic gave Screaming Eagle 1989 a perfect score?","year":"1989","anchor":"screaming eagle"},
+    {"id":"CT-v02-ph-04","question":"Describe the 2010 Château Belvaux-Ronsard, Saint-Julien.","year":"2010","anchor":"belvaux-ronsard","fictional":true},
+    {"id":"CT-v02-ph-08","question":"Describe the 2001 Dom Pérignon.","year":"2001","anchor":"dom perignon"}
+  ]
+}

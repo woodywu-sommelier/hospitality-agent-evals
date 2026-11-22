@@ -6,6 +6,7 @@
 //   node bin/requests.mjs > requests.jsonl
 
 import { readFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 
 const read = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
 const venue = read("../data/venue.json");
@@ -17,6 +18,10 @@ const system = [
   venue.knowledge,
 ].join("\n");
 
-for (const scenario of scenarios) {
-  process.stdout.write(`${JSON.stringify({ id: scenario.id, system, messages: scenario.turns })}\n`);
+export function asterRequests() {
+  return scenarios.map((scenario) => ({ id: scenario.id, system, messages: scenario.turns }));
+}
+
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
+  for (const request of asterRequests()) process.stdout.write(`${JSON.stringify(request)}\n`);
 }

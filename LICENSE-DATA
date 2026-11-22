@@ -8,3 +8,8 @@ provided you give appropriate credit ("Woody Wu, Hospitality Agent Evals"),
 link to the license, and indicate if changes were made.
 
 Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+The questions in data/constance-lite.json are taken verbatim from Woody Wu,
+The Constance Test (CC BY 4.0). The file links to its source revision. Floor-Tested
+selects eight public development questions and supplies its own conservative
+machine check; it does not reproduce the original assessment rubric.

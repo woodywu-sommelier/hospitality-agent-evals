@@ -1,0 +1,16 @@
+name: Floor-Tested
+on: [workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: woodywu-sommelier/hospitality-agent-evals@REPLACE_WITH_REVIEWED_COMMIT
+        with:
+          agent-url: ${{ secrets.HOSPITALITY_AGENT_URL }}
+          agent-key: ${{ secrets.HOSPITALITY_AGENT_KEY }}
+          packs: aster-room,constance-lite
+          timeout-seconds: '30'
+      # The job summary is automatic. This example uploads no files.
