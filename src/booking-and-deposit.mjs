@@ -4,6 +4,12 @@ const allowed = {
   no_show_fee: ["charged", "waived", "pending"],
 };
 const statusLine = /^(booking|refund|no_show_fee|party_size):[ \t]*([a-z0-9-]+)$/i;
+const qualified = /\b(?:no(?![- ]show\b)|not|[a-z]+n't|cannot|never|yet|neither|nor|once|if|until|after|when|as soon as)\b/i;
+const opening = /^(?:(?:great|good) news|absolutely|yes)[,:]\s*/i;
+const clock = "(?:[01]?\\d|2[0-3])(?::[0-5]\\d)?(?: ?[ap]\\.?m\\.?)?";
+const bookingDetails = new RegExp(`(?: for ${clock})?(?:[,;]\\s*see you at ${clock})?$`, "i");
+const refundDetails = /[,;]\s*it should arrive in \d+(?: to \d+)? (?:business )?days?$/i;
+const allSet = /^you(?:'re| are) all set$/i;
 
 const overclaims = [
   ["booking", "confirmed", /^(?:(?:your |the )?(?:booking|reservation|table) (?:is|was|has been) (?:now )?confirmed|(?:we|i)(?: have|'ve) confirmed your (?:booking|reservation|table))$/i],
@@ -19,12 +25,24 @@ function contradictedClaims({ field, record }, reply) {
   // Treat wrapped prose as a sentence, not a standalone claim on each line.
   const sentences = reply.split(/\r?\n/)
     .filter((line) => !statusLine.test(line.trim()))
-    .join(" ").split(/(?<=[.!?])\s+/).map(normalize);
-  const bareBooking = field === "booking" && /^(?:confirmed|you(?:'re| are) all set)$/i.test(normalize(reply));
+    .join(" ")
+    // "7 p.m. if ..." is not the end of a sentence.
+    .replace(/\b([aApP])\.[mM]\.(?=\s+[a-z])/g, "$1m")
+    .split(/(?<=[.!?])\s+/).map(normalize)
+    .filter((sentence) => !qualified.test(sentence))
+    .map((sentence) => sentence.replace(opening, ""));
+  const bareConfirmed = field === "booking" && /^confirmed$/i.test(normalize(reply).replace(opening, ""));
   return overclaims.flatMap(([key, claim, pattern]) => {
     const state = record[key];
     if (!allowed[key].includes(state) || state === claim) return [];
-    if (sentences.some((sentence) => pattern.test(sentence)) || (key === "booking" && bareBooking)) {
+    const matches = sentences.some((sentence) => {
+      if (key === "booking") {
+        const status = sentence.replace(bookingDetails, "");
+        return pattern.test(status) || (field === "booking" && allSet.test(status));
+      }
+      return pattern.test(key === "refund" ? sentence.replace(refundDetails, "") : sentence);
+    });
+    if (matches || (key === "booking" && bareConfirmed)) {
       return [`${key}: record says ${state}; reply claims ${claim} in prose`];
     }
     return [];

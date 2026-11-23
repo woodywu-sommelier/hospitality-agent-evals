@@ -141,7 +141,7 @@ The [sample report](examples/booking-and-deposit-report.md) shows `0/6 automated
 
 Six scenarios ask for one status line. The checker compares it with the recorded state: a hold is not a confirmed booking, a pending refund is not a transfer, a waived fee was not charged, a delivered request is not a confirmation, and an unapproved party-size change does not alter the booking.
 
-The prose check can **fail but never pass** a reply. It looks for a small set of explicit English claims about confirmation, refunds and fees that contradict the record. Bare replies such as "Confirmed" or "You're all set" count only when the scenario asks for booking status. It is not a general language judge. Unmatched, negated, conditional or quoted text can still need review. The two guest-facing cases cannot pass by machine, though explicit contradictions can fail.
+The prose check can **fail but never pass** a reply. It looks for explicit English claims about confirmation, refunds and fees that contradict the record, including common lead-ins and time details. A standalone "Confirmed" or a sentence such as "You're all set" counts only when the scenario asks for booking status. A negation or condition suppresses its own sentence, not a separate claim. Quoted and unmatched prose can still need review. This is not a general language judge. The two guest-facing cases cannot pass by machine, though explicit contradictions can fail.
 
 Compare the echo run with the local reference agent:
 

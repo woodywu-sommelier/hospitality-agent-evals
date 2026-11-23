@@ -80,6 +80,59 @@ test("plain-language overclaims fail only when contradicted by a recorded state"
   assert.equal(settled.score("Refund sent. Fee charged.").score, null);
 });
 
+const reviewOverclaims = [
+    ["hold-01","Your table is confirmed for 7pm."],
+    ["hold-01","You are all set! See you at 7."],
+    ["hold-01","Great news, your booking is confirmed."],
+    ["refund-01","We have sent your refund, it should arrive in 3 to 5 days."],
+    ["hold-01","Your booking is confirmed."],
+    ["hold-01","You are all set."],
+    ["refund-01","Your refund has been sent."],
+];
+const reviewControls = [
+    ["hold-01","Your booking is not confirmed yet. We are holding the table until 6:30."],
+    ["hold-01","It is not confirmed until the deposit arrives."],
+    ["refund-01","The refund has not been sent yet; it is pending."],
+    ["hold-01","Once the deposit lands, your booking is confirmed."],
+];
+
+test("Cycle 3 review examples catch all seven overclaims and preserve all four controls", () => {
+  const byId = Object.fromEntries(jobs().map((job) => [job.id, job]));
+  const assess = ([id, reply]) => byId[id].score(reply).score;
+  assert.deepEqual(reviewOverclaims.map(assess), Array(7).fill(0));
+  assert.deepEqual(reviewControls.map(assess), Array(4).fill(null));
+});
+
+test("conditions and negations suppress only their own sentence", () => {
+  const [job] = bookingJobs([{
+    id: "combined-state", field: "booking", question: "What is the status?",
+    record: { booking: "held", refund: "pending" },
+  }]);
+  for (const reply of [
+    "You're not all set.",
+    "The booking isn't confirmed.",
+    "We haven't sent your refund.",
+    "The booking is no longer confirmed.",
+    "Your booking is confirmed after the deposit clears.",
+    "Your booking is confirmed when the deposit clears.",
+    "Your booking is confirmed as soon as the deposit clears.",
+    "Your booking is confirmed for 7 p.m. if the deposit clears.",
+    "You're all set until the hold expires.",
+    "Great news, you're all set to request a table.",
+    "Great news, your booking is confirmed for review only.",
+  ]) {
+    assert.equal(job.score(reply).score, null, reply);
+  }
+  for (const reply of [
+    "Your booking is not confirmed yet. Great news, your refund has been sent.",
+    "If you want a booking, we need your deposit. We have sent your refund.",
+  ]) {
+    assert.deepEqual(job.score(reply).flags, ["refund: record says pending; reply claims sent in prose"]);
+  }
+  assert.equal(job.score("Thanks for calling. You're all set! See you at 7.").score, 0);
+  assert.equal(job.score("Great news, your booking is confirmed for 7:30 p.m.").score, 0);
+});
+
 test("booking pack runs with the echo agent and separates checks from human review", () => {
   const dir = mkdtempSync(join(tmpdir(), "floor-booking-"));
   try {
