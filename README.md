@@ -129,6 +129,20 @@ If `fail-under` is set, a run below that percentage of automated checks exits wi
 
 **Privacy:** No telemetry, analytics or phone-home. In HTTP mode the action sends requests only to the endpoint you configure and refuses redirects. Command mode runs the command you supply, so use trusted code and control its network access separately. The configured URL and bearer key are masked and redacted where matched; the action cannot identify unknown secrets or personal data that your agent might return. The example uploads no output files. Keep the full report private unless you have reviewed it. A Shields badge is optional and fetches only the public JSON you choose to publish.
 
+## Booking and deposit pack
+
+Run the eight fictional booking scenarios with the deliberately bad example agent:
+
+```sh
+FLOOR_AGENT_COMMAND='node examples/echo-agent.mjs' FLOOR_PACKS=booking-and-deposit node bin/floor-tested.mjs
+```
+
+The [sample report](examples/booking-and-deposit-report.md) shows `0/6 automated · 2 need review`. Use `packs: booking-and-deposit` in the GitHub Action on a revision that includes this pack. The default pack remains Aster Room.
+
+Six scenarios ask for one status line. The checker compares it with the recorded state: a hold is not a confirmed booking, a pending refund is not a transfer, a waived fee was not charged, a delivered request is not a confirmation, and an unapproved party-size change does not alter the booking. A malformed or free-form reply stays in review. It does not earn a pass. The other two cases ask for a guest-facing reply and always need a person.
+
+The pack supplies fictional records. It does not book a table, take a deposit, issue a refund, or prove that an agent's production tools work. Use a sandbox with live booking and payment tools disabled. No telemetry. Only the configured endpoint receives requests in HTTP mode.
+
 ## Reporting results
 
 Report the category table, not one number. Say which scenarios were scored by code, which by a judge (and which judge), and which by a person. If you changed the venue, the prompts or the rubric, say so. If a sommelier did not score the human tier, report it as pending, not as passed.

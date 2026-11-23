@@ -14,8 +14,8 @@ jobs:
       - uses: ./
         with:
           agent-command: node examples/echo-agent.mjs
-          packs: aster-room,constance-lite
+          packs: aster-room,constance-lite,booking-and-deposit
       - name: Verify action artifacts
         run: |
           test -s floor-tested-report.md
-          test "$(node -p 'require("./floor-tested.json").message')" = '0/41 automated · 7 need review'
+          test "$(node -p 'require("./floor-tested.json").message')" = '0/47 automated · 9 need review'

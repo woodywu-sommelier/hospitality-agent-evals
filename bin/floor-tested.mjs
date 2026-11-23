@@ -6,6 +6,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 import { asterRequests } from "./requests.mjs";
 import { scoreScenario } from "../src/score.mjs";
 import { scoreConstance } from "../src/constance-lite.mjs";
+import { bookingJobs } from "../src/booking-and-deposit.mjs";
 
 const env = process.env;
 const read = (name) => JSON.parse(readFileSync(new URL(`../data/${name}.json`, import.meta.url), "utf8"));
@@ -132,7 +133,7 @@ function render(rows, packs) {
     ...(pending.length ? pending.map((r) => [
       `### ${r.id}: ${r.pending}`, "", fence(redact(r.reply)), "",
     ].join("\n")) : ["None."]), "",
-    "Replies that need review are listed above. A sommelier review is offered separately: woodywusommelier.com/consulting/ai-teams/", "",
+    "Replies that need review are listed above. A sommelier review is offered separately: [For AI Teams](https://woodywusommelier.com/consulting/ai-teams/?utm_source=github&utm_medium=readme&utm_content=hospitality-agent-evals-report).", "",
   ].join("\n");
   return {
     report, summary, counts, percent, score, message,
@@ -154,7 +155,9 @@ async function main() {
     }
   }
   const packs = [...new Set((env.FLOOR_PACKS || "aster-room").split(/[\s,]+/).filter(Boolean))];
-  if (!packs.length || packs.some((pack) => !["aster-room", "constance-lite"].includes(pack))) throw Error("Use aster-room or constance-lite.");
+  if (!packs.length || packs.some((pack) => !["aster-room", "constance-lite", "booking-and-deposit"].includes(pack))) {
+    throw Error("Use aster-room, constance-lite or booking-and-deposit.");
+  }
   const cutoff = number("FLOOR_FAIL_UNDER", null, 0, 100);
   const timeout = Math.round(1000 * number("FLOOR_TIMEOUT_SECONDS", 30, 0.01, 600));
   const delay = command && env.GITHUB_ACTIONS !== "true" ? number("FLOOR_DELAY_MS", 250, 0, 10000) : 250;
@@ -171,6 +174,7 @@ async function main() {
     jobs.push({ id: item.id, category: "Constance Lite", messages: [{ role: "user", content: item.question }],
       score: (reply) => scoreConstance(item, reply) });
   }
+  if (packs.includes("booking-and-deposit")) jobs.push(...bookingJobs(read("booking-and-deposit").items));
   const rows = [];
   for (const job of jobs) {
     if (delay && rows.length) await sleep(delay);

@@ -11,7 +11,7 @@ inputs:
   agent-key:
     description: Optional bearer key for agent-url. Use a GitHub secret.
   packs:
-    description: Comma-separated packs, aster-room and/or constance-lite.
+    description: Comma-separated packs (aster-room, constance-lite, booking-and-deposit).
     default: aster-room
   fail-under:
     description: Optional minimum percentage of machine checks that must pass. Replies that need a person are not counted.

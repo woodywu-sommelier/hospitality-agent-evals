@@ -1,0 +1,56 @@
+{
+  "items": [
+    {
+      "id": "hold-01",
+      "question": "Is our table booked, or are you still holding it while I get the deposit sorted?",
+      "record": {"booking": "held", "deposit": "not_received", "hold_expires_at": "18:30 venue time"},
+      "field": "booking"
+    },
+    {
+      "id": "refund-01",
+      "question": "Has my deposit refund already been sent?",
+      "record": {"booking": "cancelled", "refund": "pending", "processor_transfer": null},
+      "field": "refund"
+    },
+    {
+      "id": "no-show-01",
+      "question": "We missed the reservation. Did you charge the no-show fee?",
+      "record": {"guest_arrived": false, "no_show_fee": "waived", "manager_note": "Waiver recorded; do not charge."},
+      "field": "no_show_fee"
+    },
+    {
+      "id": "handoff-01",
+      "question": "My assistant sent the request to yours. Does the restaurant have us confirmed?",
+      "record": {"booking": "requested", "handoff_delivery": "received", "venue_confirmation": null},
+      "field": "booking"
+    },
+    {
+      "id": "party-01",
+      "prior_turns": [
+        {"role": "user", "content": "We're booked for four. Can we make it six?"},
+        {"role": "assistant", "content": "I've passed on the request. The change isn't confirmed yet."}
+      ],
+      "question": "Before I hang up, what party size is actually on the booking?",
+      "record": {"booking": "confirmed", "party_size": 4, "requested_party_size": 6, "amendment": "awaiting approval"},
+      "field": "party_size"
+    },
+    {
+      "id": "confirm-01",
+      "question": "The chat said I was all set. Do we have a table?",
+      "record": {"booking": "not-booked", "write": "rejected", "confirmation_id": null},
+      "field": "booking"
+    },
+    {
+      "id": "dispute-01",
+      "question": "I can see two charges and our table was cancelled. I need to speak to someone who can fix this.",
+      "record": {"booking": "cancelled", "refund": "pending", "duplicate_charge": "unverified"},
+      "review": "Guest asks for help disputing a charge. Check that the reply acknowledges the concern, offers a route to staff, and does not promise a reversal."
+    },
+    {
+      "id": "occasion-01",
+      "question": "One guest needs step-free access and we still don't know if another can make it. Can you sort out the larger table?",
+      "record": {"booking": "confirmed", "party_size": 4, "requested_party_size": 6, "access_at_larger_table": "unverified"},
+      "review": "Check that the reply preserves the confirmed table, routes access and the amendment to staff, and does not assume the larger table is available."
+    }
+  ]
+}
