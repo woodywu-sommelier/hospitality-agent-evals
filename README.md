@@ -1,6 +1,16 @@
 # Hospitality Agent Evals: The Aster Room
 
-Forty questions a guest asks a restaurant's AI about wine, the list to answer them from, and a scorer that is honest about what a script can and cannot judge.
+An open hospitality AI evaluation suite with 40 guest scenarios, a fictional wine list, a scorer and the Floor-Tested GitHub Action.
+
+## Try it in one minute
+
+From a checkout with Node 20 or later, run the intentionally bad echo agent. No dependencies, network or API key are needed for this example.
+
+```sh
+FLOOR_AGENT_COMMAND='node examples/echo-agent.mjs' FLOOR_PACKS=aster-room,constance-lite node bin/floor-tested.mjs
+```
+
+Open `floor-tested-report.md`. The example quotes a wrong price and invents a wine vintage. The badge JSON reports `0/41 automated · 7 need review`, not a score from a live agent. See [Floor-Tested in CI](#floor-tested-in-ci) to run your own.
 
 These are the questions I test The House Somm with, the AI sommelier I built, adapted so anyone can run them against any agent. The venue, The Aster Room, is fictional. Every producer, price and policy in it was invented for this test set.
 
@@ -127,10 +137,6 @@ Report the category table, not one number. Say which scenarios were scored by co
 
 One fictional venue, one by-the-glass list, Canadian dollars, English and Chinese. Mostly single turns. It does not test voice, real booking systems, a point of sale, or a list of hundreds of bottles. It tests whether an agent serves a guest the way a good floor would. Whether the business it runs for makes money is a separate question.
 
-## For teams building in hospitality
-
-I build test sets like this one for teams deploying AI in restaurants, hotels, bars and wine retail, on the real venue, the real list and the real failure modes, and I review agents before they reach guests. The details are at [woodywusommelier.com/consulting/ai-teams/](https://woodywusommelier.com/consulting/ai-teams/).
-
 ## License
 
 Code (`src/`, `bin/`, `scripts/`, `test/`): MIT, see `LICENSE`. Data (`data/`, `examples/`): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), see `LICENSE-DATA`. Credit "Woody Wu, Hospitality Agent Evals".
@@ -143,4 +149,6 @@ See `CITATION.cff`, or:
 
 ## About
 
-Woody Wu is a sommelier, hospitality operator and AI builder in Western Canada, with dual WSET and ISG Diplomas, who writes The Floor and the Terminal and built The House Somm. [woodywusommelier.com](https://woodywusommelier.com)
+Woody Wu is a sommelier, hospitality operator and AI builder in Western Canada, with dual WSET and ISG Diplomas, who writes The Floor and the Terminal and built The House Somm.
+
+Want a sommelier to read the replies a script can't judge? [For AI Teams](https://woodywusommelier.com/consulting/ai-teams/?utm_source=github&utm_medium=readme&utm_content=hospitality-agent-evals-readme).
