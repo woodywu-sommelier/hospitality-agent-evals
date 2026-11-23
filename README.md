@@ -131,6 +131,8 @@ If `fail-under` is set, a run below that percentage of automated checks exits wi
 
 ## Booking and deposit pack
 
+[Floor Note 01: A Hold Is Not a Booking](docs/floor-notes/01-booking-overclaims.md) shows what the released status checks catch and where the prose rules miss.
+
 Run the eight fictional booking scenarios with the deliberately bad example agent:
 
 ```sh
