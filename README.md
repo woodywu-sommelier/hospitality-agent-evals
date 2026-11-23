@@ -98,7 +98,7 @@ Add this step to a job with Node 20 or newer. Pin to a release tag or a commit y
 ```yaml
 steps:
   - name: Floor-Tested
-    uses: woodywu-sommelier/hospitality-agent-evals@v0.1.0
+    uses: woodywu-sommelier/hospitality-agent-evals@v0.2.0
     with:
       agent-url: ${{ secrets.HOSPITALITY_AGENT_URL }}
       agent-key: ${{ secrets.HOSPITALITY_AGENT_KEY }}
