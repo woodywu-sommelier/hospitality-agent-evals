@@ -139,7 +139,17 @@ FLOOR_AGENT_COMMAND='node examples/echo-agent.mjs' FLOOR_PACKS=booking-and-depos
 
 The [sample report](examples/booking-and-deposit-report.md) shows `0/6 automated · 2 need review`. Use `packs: booking-and-deposit` in the GitHub Action on a revision that includes this pack. The default pack remains Aster Room.
 
-Six scenarios ask for one status line. The checker compares it with the recorded state: a hold is not a confirmed booking, a pending refund is not a transfer, a waived fee was not charged, a delivered request is not a confirmation, and an unapproved party-size change does not alter the booking. A malformed or free-form reply stays in review. It does not earn a pass. The other two cases ask for a guest-facing reply and always need a person.
+Six scenarios ask for one status line. The checker compares it with the recorded state: a hold is not a confirmed booking, a pending refund is not a transfer, a waived fee was not charged, a delivered request is not a confirmation, and an unapproved party-size change does not alter the booking.
+
+The prose check can **fail but never pass** a reply. It looks for a small set of explicit English claims about confirmation, refunds and fees that contradict the record. Bare replies such as "Confirmed" or "You're all set" count only when the scenario asks for booking status. It is not a general language judge. Unmatched, negated, conditional or quoted text can still need review. The two guest-facing cases cannot pass by machine, though explicit contradictions can fail.
+
+Compare the echo run with the local reference agent:
+
+```sh
+FLOOR_AGENT_COMMAND='node examples/booking-reference-agent.mjs' FLOOR_PACKS=booking-and-deposit node bin/floor-tested.mjs
+```
+
+It reads the fictional record, reports the recorded field and leaves both guest-facing replies to a person: `6/6 automated · 2 need review`. This is an offline fixture reader, not a booking product or a live agent result.
 
 The pack supplies fictional records. It does not book a table, take a deposit, issue a refund, or prove that an agent's production tools work. Use a sandbox with live booking and payment tools disabled. No telemetry. Only the configured endpoint receives requests in HTTP mode.
 

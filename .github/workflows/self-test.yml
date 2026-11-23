@@ -19,3 +19,10 @@ jobs:
         run: |
           test -s floor-tested-report.md
           test "$(node -p 'require("./floor-tested.json").message')" = '0/47 automated · 9 need review'
+      - uses: ./
+        with:
+          agent-command: node examples/booking-reference-agent.mjs
+          packs: booking-and-deposit
+          fail-under: '100'
+      - name: Verify booking reference badge
+        run: test "$(node -p 'require("./floor-tested.json").message')" = '6/6 automated · 2 need review'
