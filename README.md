@@ -14,7 +14,7 @@ Replace the example URL with your endpoint. It receives `{"messages":[...]}` and
 
 Open `floor-tested-report.md` to see which checks passed and which replies need human review. The default run uses the fictional Aster Room scenarios. Setup takes about two minutes. Run time depends on your agent. See [Floor-Tested in CI](#floor-tested-in-ci) for pack selection and CI setup.
 
-Want a sommelier to review your agent's replies before launch? [Pre-Launch Review](https://woodywusommelier.com/consulting/ai-teams/).
+Want a sommelier to review your agent's replies before launch? [Pre-Launch Review](https://woodywusommelier.com/consulting/ai-teams/?utm_source=github&utm_medium=readme&utm_content=hospitality-agent-evals-quickstart).
 
 ### Try the offline example
 
