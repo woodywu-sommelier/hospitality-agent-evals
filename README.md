@@ -2,15 +2,27 @@
 
 An open hospitality AI evaluation suite with 40 guest scenarios, a fictional wine list, a scorer and the Floor-Tested GitHub Action.
 
-## Try it in one minute
+## Run it on your agent in two minutes
 
-From a checkout with Node 20 or later, run the intentionally bad echo agent. No dependencies, network or API key are needed for this example.
+From this checkout, use Node 20 or later. Point Floor-Tested at a sandbox endpoint with live booking and payment tools disabled:
+
+```sh
+FLOOR_AGENT_URL='https://your-sandbox.example/agent' node bin/floor-tested.mjs
+```
+
+Replace the example URL with your endpoint. It receives `{"messages":[...]}` and returns `{"reply":"..."}`. If it requires authentication, set `FLOOR_AGENT_KEY` privately and use HTTPS. For a local adapter, use `FLOOR_AGENT_COMMAND='node path/to/adapter.mjs'` in place of `FLOOR_AGENT_URL`. It receives the same JSON on stdin and writes reply text or a JSON object with a `reply` field to stdout.
+
+Open `floor-tested-report.md` to see which checks passed and which replies need human review. The default run uses the fictional Aster Room scenarios. Setup takes about two minutes. Run time depends on your agent. See [Floor-Tested in CI](#floor-tested-in-ci) for pack selection and CI setup.
+
+Want a sommelier to review your agent's replies before launch? [Pre-Launch Review](https://woodywusommelier.com/consulting/ai-teams/).
+
+### Try the offline example
 
 ```sh
 FLOOR_AGENT_COMMAND='node examples/echo-agent.mjs' FLOOR_PACKS=aster-room,constance-lite node bin/floor-tested.mjs
 ```
 
-Open `floor-tested-report.md`. The example quotes a wrong price and invents a wine vintage. The badge JSON reports `0/41 automated · 7 need review`, not a score from a live agent. See [Floor-Tested in CI](#floor-tested-in-ci) to run your own.
+The deliberately bad echo agent needs no dependencies, network, or API key. It quotes a wrong price and invents a wine vintage. The badge reports `0/41 automated · 7 need review` for this example.
 
 These are the questions I test The House Somm with, the AI sommelier I built, adapted so anyone can run them against any agent. The venue, The Aster Room, is fictional. Every producer, price and policy in it was invented for this test set.
 
